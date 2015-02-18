@@ -4,6 +4,9 @@ app.controller('loginController', ['$http', function($http)
 {
 	var form = this;
 	this.login = function(){
-		console.log(form);
+		$('#loginForm').fadeOut(function()
+		{
+			$('#later').fadeIn();
+		});
 	};
 }]);
