@@ -1,0 +1,26 @@
+html
+{
+	min-height: 100%;
+}
+
+body
+{
+}
+
+/*Classes*/
+.box
+{
+	width:400px;
+	min-height:100px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -200px;
+	margin-left: -200px;
+
+	/*Border*/
+	-webkit-box-shadow: 0 0 0 4px #000000;
+	box-shadow: 0 0 0 4px #000000;
+
+	padding: 20px;
+}
