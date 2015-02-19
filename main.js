@@ -21,8 +21,12 @@ var host = http.createServer(function(request, response)
 	var view = file.read(request.url);
 
 	response.writeHead(view.status, view.head);
-	response.write(view.content);
-	response.end();
+	
+	if(view.stream)
+		view.stream.pipe(response);
+
+	else
+		response.end(view.content);
 });
 
 // Start server

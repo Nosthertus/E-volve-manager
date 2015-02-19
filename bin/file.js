@@ -1,5 +1,6 @@
 // Load the required modules
-var fs = require('fs');
+var fs = require('fs'),
+	path = require('path');
 
 // Load configuration
 var config = fs.readFileSync('config.json');
@@ -10,32 +11,33 @@ module.exports = {
 	read: function(file)
 	{
 		if(file == '/')
-			return loadFile('index.html');
+			return loadFile('/index.html');
+
+		return loadFile(file);
 	}
 };
 
 // Load the requested file
 function loadFile(file)
 {
-	var req = fs.readFileSync(file);
-
+	var loc = path.normalize(config.dirFiles + file);
 	var result = {};
 	
-	if(!req)
-	{
+	if(loc.indexOf(config.dirFiles) === 0 && fileExist(loc))
+	{	
 		result = {
-			status: 404,
-			head: {'Content-Type': 'text/plain'},
-			content: 'The requested view does not exist'
+			status: 200,
+			head: {'Content-Type': getMIME(file)},
+			stream: fs.createReadStream(loc)
 		};
 	}
 
 	else
 	{
 		result = {
-			status: 200,
-			head: {'Content-Type': getMIME(file)},
-			content: req
+			status: 404,
+			head: {'Content-Type': 'text/plain'},
+			content: 'The requested view does not exist'
 		};
 	}
 
@@ -61,9 +63,28 @@ function getMIME(file)
 			break;
 
 		case '.html':
-			MIME: 'text/html';
+			MIME = 'text/html';
 			break;
+
+		default:
+			MIME = 'text/plain';
 	}
 
+	console.log(MIME, ext);
+
 	return MIME;
+}
+
+// Check if file exist
+function fileExist(filename)
+{
+	try
+	{
+		fs.statSync(filename);
+		return true
+	}
+	catch(ex)
+	{
+		return false;
+	}
 }
