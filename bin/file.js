@@ -1,6 +1,7 @@
 // Load the required modules
 var fs = require('fs'),
-	path = require('path');
+	path = require('path'),
+	mime = require('mime');
 
 // Load configuration
 var config = fs.readFileSync('config.json');
@@ -27,7 +28,7 @@ function loadFile(file)
 	{	
 		result = {
 			status: 200,
-			head: {'Content-Type': getMIME(file)},
+			head: {'Content-Type': mime.lookup(file)},
 			stream: fs.createReadStream(loc)
 		};
 	}
@@ -42,37 +43,6 @@ function loadFile(file)
 	}
 
 	return result;
-}
-
-// Detect MIME file type
-function getMIME(file)
-{
-	var regex = /(.css|.html|.js)/;
-	var ext = regex.exec(file);
-	
-	var MIME = '';
-
-	switch(ext[1])
-	{
-		case '.js':
-			MIME = 'text/javascript';
-			break;
-
-		case '.css':
-			MIME = 'text/css';
-			break;
-
-		case '.html':
-			MIME = 'text/html';
-			break;
-
-		default:
-			MIME = 'text/plain';
-	}
-
-	console.log(MIME, ext);
-
-	return MIME;
 }
 
 // Check if file exist

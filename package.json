@@ -1,0 +1,9 @@
+{
+	"name": "E/volve Manager",
+	"version": "0.1.2",
+	"description": "E/volve project manager",
+	"author": "Oscar Reyes <darkfreak17@hotmail.com>",
+	"dependencies":{
+		"mime": "x"
+	}
+}
