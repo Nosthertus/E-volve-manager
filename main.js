@@ -6,7 +6,8 @@
 console.log('Loading modules');
 var http = require('http'),
 	fs = require('fs'),
-	file = require('./bin/file.js');
+	file = require('./bin/file.js'),
+	io = require('socket.io');
 
 // Load config file
 console.log('Loading configuration file');
@@ -16,8 +17,6 @@ var config = JSON.parse(config);
 // Config http server
 var host = http.createServer(function(request, response)
 {
-	console.log('requesting: ', request.url);
-
 	var view = file.read(request.url);
 
 	response.writeHead(view.status, view.head);
@@ -29,6 +28,18 @@ var host = http.createServer(function(request, response)
 		response.end(view.content);
 });
 
+
+
 // Start server
-if(host.listen(config.port))
+host.listen(config.port)
+
+// Configure socket
+var io = io.listen(host);
+
+var socket = io.sockets.on('connection', function(socket)
+{
+	console.log('socket connection');
+});
+
+if(socket)
 	console.log('Http server initialized on port:', config.port);

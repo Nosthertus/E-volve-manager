@@ -12,6 +12,7 @@
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
 </head>
 <body ng-app="E/volve">
 	<div class="box middle" id="loginForm">
@@ -19,11 +20,13 @@
 			<div class="form-group">
 				<label for="loginUsername" class="control-label">Username</label>
 				<input type="text" class="form-control" id="loginUsername" ng-model="login.username">
+				<p class="help-block">Username length is too short</p>
 			</div>
 
 			<div class="form-group">
 				<label for="loginPassword" class="control-label">Password</label>
 				<input type="password" class="form-control" id="loginPassword" ng-model="login.password">
+				<p class="help-block">Password length is too short</p>
 			</div>
 
 			<button type="submit" class="btn btn-default">Submit</button>
